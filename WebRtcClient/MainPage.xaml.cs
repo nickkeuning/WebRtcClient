@@ -24,8 +24,7 @@ namespace WebRtcClient
     public sealed partial class MainPage : Page
     {
 
-        public string ServerAddress { get; set; } = "35.3.10.215";
-        public string ServerPort { get; set; } = "8888";
+        public string ServerAddress { get; set; } = "10.0.0.192";
         public bool Logging { get; set; } = true;
 
         private Client Client { get; set; }
@@ -38,6 +37,8 @@ namespace WebRtcClient
             {
                 Logger.WriteMessage += this.WriteLine;
             }
+
+            this.Client = new Client(this.Dispatcher, this.RemoteVideo, this.ServerAddress);
         }
 
         #region Utilities
@@ -58,9 +59,16 @@ namespace WebRtcClient
         private async void ClientConnectButton_Click(object sender, RoutedEventArgs e)
         {
             this.SettingsPanel.Visibility = Visibility.Collapsed;
-            this.Client = new Client(this.ServerAddress, this.Dispatcher, this.RemoteVideo);
-            await this.Client.ConnectToServer();
-            this.OutputTextBox.Visibility = Visibility.Collapsed;
+            try
+            {
+                await this.Client.Initialize();
+                await this.Client.ConnectToServer();
+                this.OutputTextBox.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"{ex}");
+            }
         }
 
         private void LoggerToggle_Click(object sender, RoutedEventArgs e)

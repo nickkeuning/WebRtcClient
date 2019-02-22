@@ -56,7 +56,7 @@
             VerticalAlignment="Stretch"
             HorizontalAlignment="Right"
             Margin="10"
-            Width="450"
+            Width="300"
             IsReadOnly="True"
             TextWrapping="Wrap"
             ScrollViewer.VerticalScrollBarVisibility="Auto"/>

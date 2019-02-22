@@ -124,10 +124,11 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Signalling\Protocol.cs" />
+    <Compile Include="Signalling\Signaller.cs" />
+    <Compile Include="Signalling\SignallingClient.cs" />
     <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\RtcWrapper.cs" />
     <Compile Include="Utilities\TaskExtensions.cs" />
-    <Compile Include="Utilities\WebRtcWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
