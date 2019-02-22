@@ -8,24 +8,26 @@ namespace WebRtcClient.Utilities
 {
     sealed class RtcWrapper
     {
+        private static readonly RtcWrapper instance = new RtcWrapper();
         private Media media { get; set; }
         private MediaStream mediaStream { get; set; }
+
+        public static RtcWrapper Instance { get { return RtcWrapper.instance; } }
+        public Media Media { get { return this.media; } }
+        public MediaStream MediaStream { get { return this.mediaStream; } }
+
+        static RtcWrapper() { }
+        private RtcWrapper()
+        {
+            this.media = null;
+            this.mediaStream = null;
+        }        
 
         private RTCMediaStreamConstraints Constraints { get; } = new RTCMediaStreamConstraints()
         {
             videoEnabled = true,
             audioEnabled = false
         };
-
-        private RtcWrapper()
-        {
-            this.media = null;
-            this.mediaStream = null;
-        }
-
-        public Media Media { get { return Nested.instance.media; } }
-        public MediaStream MediaStream { get { return Nested.instance.mediaStream; } }
-        public static RtcWrapper Instance { get { return Nested.instance; } }
 
         public async Task Initialize(CoreDispatcher coreDispatcher)
         {
@@ -62,16 +64,6 @@ namespace WebRtcClient.Utilities
             }
 
             this.mediaStream = await this.media.GetUserMedia(this.Constraints);
-        }
-
-        private class Nested
-        {
-            // Explicit static constructor to tell C# compiler
-            // not to mark type as beforefieldinit
-            static Nested()
-            {
-            }
-            internal static readonly RtcWrapper instance = new RtcWrapper();
         }
     }
 
